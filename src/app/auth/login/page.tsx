@@ -14,26 +14,24 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  title: z
+  email: z.email("Must be a valid email"),
+  password: z
     .string()
-    .min(5, "Bug title must be at least 5 characters.")
-    .max(32, "Bug title must be at most 32 characters."),
-  description: z
-    .string()
-    .min(20, "Description must be at least 20 characters.")
-    .max(100, "Description must be at most 100 characters."),
+    .min(5, "Password must be at least 5 characters.")
+    .max(32, "Password must be at most 32 characters."),
 });
 
 export default function Login() {
   const form = useForm({
     defaultValues: {
-      title: "",
-      description: "",
+      email: "",
+      password: "",
     },
-
+    validators: {
+      onSubmit: formSchema,
+    },
     onSubmit: async ({ value }) => {
       toast.success("Form submitted successfully");
-      console.log("test");
     },
   });
 
@@ -52,14 +50,41 @@ export default function Login() {
       >
         <FieldGroup>
           <form.Field
-            name="title"
+            name="email"
             // biome-ignore lint/correctness/noChildrenProp: <explanation>
             children={(field) => {
               const isInvalid =
                 field.state.meta.isTouched && !field.state.meta.isValid;
               return (
                 <Field data-invalid={isInvalid}>
-                  <FieldLabel htmlFor={field.name}>Bug Title</FieldLabel>
+                  <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                    placeholder="Login button not working on mobile"
+                    autoComplete="off"
+                  />
+                  <FieldDescription>
+                    Provide a concise title for your bug report.
+                  </FieldDescription>
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          />
+          <form.Field
+            name="password"
+            // biome-ignore lint/correctness/noChildrenProp: <explanation>
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Password</FieldLabel>
                   <Input
                     id={field.name}
                     name={field.name}
