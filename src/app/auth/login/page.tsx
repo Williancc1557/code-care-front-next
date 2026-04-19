@@ -1,3 +1,86 @@
+"use client";
+
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+const formSchema = z.object({
+  title: z
+    .string()
+    .min(5, "Bug title must be at least 5 characters.")
+    .max(32, "Bug title must be at most 32 characters."),
+  description: z
+    .string()
+    .min(20, "Description must be at least 20 characters.")
+    .max(100, "Description must be at most 100 characters."),
+});
+
 export default function Login() {
-  return <section className="w-full">hello 2 </section>;
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+    },
+
+    onSubmit: async ({ value }) => {
+      toast.success("Form submitted successfully");
+      console.log("test");
+    },
+  });
+
+  return (
+    <section className="w-full px-20 mt-10">
+      <span>Log in</span>
+      <p>Log In to Code&Care Dashboard to overview your project.</p>
+
+      <form
+        id="bug-report-form"
+        onSubmit={(e) => {
+          e.preventDefault();
+          form.handleSubmit();
+          console.log("hi");
+        }}
+      >
+        <FieldGroup>
+          <form.Field
+            name="title"
+            // biome-ignore lint/correctness/noChildrenProp: <explanation>
+            children={(field) => {
+              const isInvalid =
+                field.state.meta.isTouched && !field.state.meta.isValid;
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Bug Title</FieldLabel>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                    placeholder="Login button not working on mobile"
+                    autoComplete="off"
+                  />
+                  <FieldDescription>
+                    Provide a concise title for your bug report.
+                  </FieldDescription>
+                  {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                </Field>
+              );
+            }}
+          />
+        </FieldGroup>
+        <Button type="submit">Submit</Button>
+      </form>
+    </section>
+  );
 }
