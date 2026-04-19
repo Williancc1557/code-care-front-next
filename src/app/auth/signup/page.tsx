@@ -3,10 +3,10 @@
 import { toast } from "sonner";
 import { AuthForm } from "../_components/AuthForm";
 
-export default function Login() {
+export default function SignUp() {
   return (
     <AuthForm
-      type="login"
+      type="signup"
       onSubmit={async () => {
         toast.success("Form submitted successfully");
       }}
