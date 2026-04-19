@@ -64,8 +64,11 @@ export function AuthForm({
     <section className="w-full px-8 pt-12 pb-8 md:px-16" data-auth-mode={type}>
       <div className="mx-auto w-full max-w-5xl">
         <Link
-          href="/"
-          className="mb-6 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-slate-700"
+          href="/auth/login"
+          className={cn(
+            "mb-6 inline-flex items-center gap-2 text-sm text-slate-500 transition-colors hover:text-slate-700",
+            type === "login" && "hidden",
+          )}
         >
           <ChevronLeft className="size-4" />
           Back
