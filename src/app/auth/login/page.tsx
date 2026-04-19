@@ -36,7 +36,7 @@ export default function Login() {
   });
 
   return (
-    <section className="w-full px-20 mt-10">
+    <section className="w-full px-15 mt-10">
       <span>Log in</span>
       <p>Log In to Code&Care Dashboard to overview your project.</p>
 

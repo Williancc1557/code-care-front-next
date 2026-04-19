@@ -1,6 +1,6 @@
 export function LeftAuthSide() {
   return (
-    <section className="h-screen flex w-[71%] bg-[#0123cd] text-white px-20">
+    <section className="h-screen flex w-[71%] bg-[#0123cd] text-white px-15">
       <span>Code & Care</span>
     </section>
   );
