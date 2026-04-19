@@ -5,7 +5,7 @@ import { setAuthToken } from "@/lib/auth-token";
 import { api } from "../api";
 import type { AuthTokensResponse } from "./types";
 
-export interface CreateUserParams {
+export interface LoginParams {
   email: string;
   password: string;
 }
@@ -21,23 +21,23 @@ function formatMutationError(err: unknown): string {
   return "Something went wrong";
 }
 
-const createUserFn = async (data: CreateUserParams) => {
-  const res = await api.post<AuthTokensResponse>("/auth/register", {
+const loginFn = async (data: LoginParams) => {
+  const res = await api.post<AuthTokensResponse>("/auth/login", {
     email: data.email,
     password: data.password,
   });
   return res.data;
 };
 
-export function useCreateUser() {
+export function useLogin() {
   return useMutation({
-    mutationFn: (data: CreateUserParams) => createUserFn(data),
+    mutationFn: (data: LoginParams) => loginFn(data),
     onSuccess: (data) => {
       setAuthToken(data.accessToken);
-      toast.success("User registered successfuly!");
+      toast.success("Logged in successfully!");
     },
     onError: (err: unknown) => {
-      toast.error(`Error while creating user: ${formatMutationError(err)}`);
+      toast.error(`Login failed: ${formatMutationError(err)}`);
     },
   });
 }
