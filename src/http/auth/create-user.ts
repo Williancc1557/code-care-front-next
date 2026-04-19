@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { isAxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { setAuthToken } from "@/lib/auth-token";
 import { api } from "../api";
@@ -30,11 +31,13 @@ const createUserFn = async (data: CreateUserParams) => {
 };
 
 export function useCreateUser() {
+  const router = useRouter();
   return useMutation({
     mutationFn: (data: CreateUserParams) => createUserFn(data),
     onSuccess: (data) => {
       setAuthToken(data.accessToken);
       toast.success("User registered successfuly!");
+      router.replace("/");
     },
     onError: (err: unknown) => {
       toast.error(`Error while creating user: ${formatMutationError(err)}`);

@@ -1,3 +1,4 @@
+import { RequireGuest } from "@/components/auth/require-guest";
 import { LeftAuthSide } from "./_components/LeftAuthSide";
 
 export default function AuthLayout({
@@ -8,7 +9,7 @@ export default function AuthLayout({
   return (
     <div className="flex h-screen w-screen justify-center">
       <LeftAuthSide />
-      {children}
+      <RequireGuest>{children}</RequireGuest>
     </div>
   );
 }
