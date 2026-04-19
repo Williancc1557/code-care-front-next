@@ -1,5 +1,3 @@
 export default function Login() {
-    return <div>
-        hello
-    </div>
+  return <section className="w-full">hello 2 </section>;
 }

@@ -1,5 +1,3 @@
 export default function Logout() {
-    return <div>
-        hello 2
-    </div>
+  return <section className="w-full">hello 2 </section>;
 }
