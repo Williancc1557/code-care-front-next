@@ -23,6 +23,9 @@ COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 COPY --from=build /app/next.config.ts ./next.config.ts
 
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 EXPOSE 3001
 
 CMD ["sh", "-c", "bun run start -- -H 0.0.0.0 -p ${PORT:-3001}"]
