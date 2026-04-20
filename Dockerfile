@@ -7,6 +7,9 @@ RUN bun install --frozen-lockfile
 FROM deps AS build
 WORKDIR /app
 
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 COPY . .
 RUN bun run build
 
