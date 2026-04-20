@@ -1,22 +1,23 @@
-FROM node:22-alpine AS deps
+FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 FROM deps AS build
 WORKDIR /app
 
 COPY . .
-RUN npm run build && npm prune --omit=dev
+RUN bun run build
 
-FROM node:22-alpine AS runner
+FROM oven/bun:1-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=3001
 
-COPY --from=build /app/package*.json ./
+COPY --from=build /app/package.json ./
+COPY --from=build /app/bun.lock ./
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
@@ -24,4 +25,4 @@ COPY --from=build /app/next.config.ts ./next.config.ts
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx next start -H 0.0.0.0 -p ${PORT:-3001}"]
+CMD ["sh", "-c", "bun run start -- -H 0.0.0.0 -p ${PORT:-3001}"]
