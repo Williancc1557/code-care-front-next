@@ -8,8 +8,10 @@ export default function AuthLayout({
 }>) {
   return (
     <div className="flex h-screen w-screen justify-center">
-      <LeftAuthSide />
-      <RequireGuest>{children}</RequireGuest>
+      <RequireGuest>
+        <LeftAuthSide />
+        {children}
+      </RequireGuest>
     </div>
   );
 }
